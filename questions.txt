@@ -1,0 +1,68 @@
+0.  What is pneumonoultramicroscopicsilicovolcanoconiosis?
+    The maximum length for a word in dictionary.h thus set as a constant defined as LENGTH, of value 45.
+
+1.  According to its man page, what does getrusage do?
+    getrusage() returns resource usage measures of various forms for various threads.
+
+2.  Per that same man page, how many members are in a variable of type struct rusage?
+    There are members in the struct rusage.
+
+3.  Why do you think we pass before and after by reference (instead of by value) to calculate, even though we’re not changing their contents?
+    Primarily to enable us to isolate the process time taken to load dictionary (see later question) and use thus 
+    use comparitive functions to compare resource performance.    
+
+4.  Explain as precisely as possible, in a paragraph or more, how main goes about reading words from a file. In other words, convince us that you indeed understand how that function’s for loop works.
+    
+    Main takes a total of 3 arguments (2 inputs from the users):the name of the program, the dictionary and the text,
+    where dictionary is assumed to be a file containing a list of lowercase words, one per line, and text is a file to 
+    be spell-checked.  
+    
+    Main then does some sanity checks followed by the instantiation of structs to hold timing data. It then sets
+    the benchmarks for the timing to doubles: 0.0.
+    
+    Then we move onto identifying the user's desired dictionary to load (by looking at the inputted cmd-line arguments),
+    then the said dictionary is loaded (followed by further error checking to ensure a successful load).
+    
+    If loaded successfully, we calculate the load time by using calculate() to workout the difference in process time pre
+    and post load.
+    
+    Then we want to open our text that we want to spell check, of course including some error checking for open faluts.
+    
+    Then main of course needs to compare the spelling of the words in dictionary, with the words in our file. 
+    And so the first thing we do is set up some counters.
+    
+    Then we use a for loop to iterate through each word in our text file, ensuring we use validations to allow
+    alphabetic values only (and apostraphes) AND words that are only shorter than our predefined max length constant AND 
+    words that do no not contain numbers. Once a word has passed our validators we begin to spell check the word.
+    (we of course iterate the index values in the process to keep track of where we are in the text).
+      
+    When we come across a word we terminate the 'current' word to focus on the new one we have found, and so we iterate the
+    word counter to keep track of how many valid words we have come across.
+    
+    Then again we use rusage to time the process of the actual check by referencing the start and end of the 'checking' process.
+    If a word is mispelled we print it.
+    
+    We then check for more errors before closing text.
+    
+    We then use more rusage functions to compare the size of dictionary before and after the spell checking process, followed
+    by a time capture for that process.
+    
+    Then we unload the dictionary (with error checking) and time that process also.
+    
+    Then finally we print all of our benchmarks and timings.
+    
+        
+5.  Why do you think we used fgetc to read each word’s characters one at a time rather than use fscanf with a format string like "%s" to read whole words at a time? Put another way, what problems might arise by relying on fscanf alone?
+    Firstly because it allows is to capture digits and non-alphabetic characters in a word, in which case we can skip the word, but functionally it means we do not have to alloc memory also (which would be a pain). 
+
+6.  Why do you think we declared the parameters for check and load as const?
+    These are parameters that need to remain unchanged inorder to ensure accurate and fair timings, and so we have defined
+    them as constants that remain, well, constant.
+
+7.  I chose to use a Hashtable containing a series of 26 linked lists (a through z) with nodes and pointers just like in lecture.
+
+8. TIME IN TOTAL: 2.16
+
+9. Started off with some way over complicated system with additional C programs.. totally not needed. Reworked over 3 days, got there in the end, turns out kepeping it sime works. Just need to put more thought in before hard coding, rather than after I start.
+
+10. I did when I started, I couldn't even get it to compile at the start, but worked through it on paper, sublime and on the appliance.
